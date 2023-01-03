@@ -1,63 +1,30 @@
-import { useState } from "react";
 import "./App.css";
-import { Button, Form, Col, Row, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import NameForm from "./components/NameForm";
 import NamesTable from "./components/NamesTable";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getPeople } from "./store/people-actions";
+import { RootState } from "../src/store/index";
+let isInitial = true;
 
 function App() {
+  const people = useSelector((state: RootState) => state.names);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isInitial) {
+      dispatch(getPeople());
+      isInitial = false;
+      return;
+    }
+  }, [people, dispatch]);
   return (
     <Container>
       <NameForm />
-      <NamesTable names={fake}/>
+      <NamesTable names={people} />
     </Container>
   );
 }
 
 export default App;
-
-var fake = [
-  {
-    name: "s",
-    gender: {
-      gender: "male",
-      probability: 99.9,
-      count: 500,
-    },
-    nationality: [
-      {
-        country_id: "TH",
-        probability: 0.809,
-      },
-      {
-        country_id: "LI",
-        probability: 0.249,
-      },
-      {
-        country_id: "US",
-        probability: 0.155,
-      },
-    ],
-  },
-  {
-    name: "M",
-    gender: {
-      gender: "female",
-      probability: 99.9,
-      count: 660,
-    },
-    nationality: [
-      {
-        country_id: "TH",
-        probability: 0.809,
-      },
-      {
-        country_id: "LI",
-        probability: 0.249,
-      },
-      {
-        country_id: "US",
-        probability: 0.155,
-      },
-    ],
-  },
-];

@@ -15,7 +15,7 @@ export default function NamesTable({ names }: { names: TPerson[] }) {
           </tr>
         </thead>
         <tbody>
-          {names.length &&
+          {!!names.length &&
             names.map((item, i) => (
               <tr key={i}>
                 <td>{i + 1}</td>
@@ -25,7 +25,7 @@ export default function NamesTable({ names }: { names: TPerson[] }) {
                 </td>
                 <td>
                   <ListGroup variant="flush">
-                    {item.nationality.length &&
+                    {!!item.nationality.length &&
                       item.nationality.map((cntry, j) => (
                         <ListGroup.Item key={j}>
                           {cntry.country_id} ({cntry.probability}%)

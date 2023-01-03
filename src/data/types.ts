@@ -1,4 +1,5 @@
 export type TInfo = {
+  id: string;
   name: {
     pattern: RegExp;
     msg: string[];
