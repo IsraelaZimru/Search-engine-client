@@ -15,7 +15,10 @@ export default function NamesTable({
   deletePersonHandler: (id?: string) => void;
 }) {
   const names = useSelector((state: RootState) => state.names);
+  const capitalize = (s: string) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
+    
   return (
     <div style={{ marginTop: "50px" }}>
       <Table responsive="sm">
@@ -33,7 +36,7 @@ export default function NamesTable({
             names.map((item, i) => (
               <tr key={i}>
                 <td>{i + 1}</td>
-                <td>{item.name}</td>
+                <td>{capitalize(item.name)}</td>
                 <td>
                   {item.gender.gender} ({item.gender.probability}%)
                 </td>

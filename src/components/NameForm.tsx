@@ -9,8 +9,7 @@ function NameForm({
 }: {
   submitHandler: (name: string) => void;
 }) {
-  const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [info, setInfo] = useState<TInfo>({
     name: {
       pattern: /\w{2,}/,
@@ -30,8 +29,8 @@ function NameForm({
     }));
   }
 
-  function formHandler() {
-    setLoading((prev) => true);
+  async function formHandler() {
+    await setLoading(true);
     console.log("enter sumbit", isLoading);
     const value = info.name.value;
     //checking validation
@@ -66,8 +65,14 @@ function NameForm({
       return;
     }
 
-    submitHandler(value);
+    await submitHandler(value);
     setLoading(false);
+    setInfo((prev) => ({
+      name: {
+        ...info.name,
+        value: "",
+      },
+    }));
     console.log("everything is fine!!! 😎", value, isLoading);
   }
 

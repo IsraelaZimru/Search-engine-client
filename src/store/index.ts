@@ -20,7 +20,10 @@ const peopleSlice = createSlice({
     },
     newPerson(state, action) {
       state.lastPerson = action.payload;
-      state.names.push(action.payload);
+      const exists = state.names.find(
+        (item) => item._id === state?.lastPerson?._id
+      );
+      if (!exists) state.names.push(action.payload);
       state.showResult = true;
     },
     deleteOne(state, action) {
