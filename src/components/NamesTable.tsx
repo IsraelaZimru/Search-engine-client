@@ -1,5 +1,11 @@
 import React from "react";
-import { Table, ListGroup } from "react-bootstrap";
+import {
+  Table,
+  ListGroup,
+  OverlayTrigger,
+  Popover,
+  Button,
+} from "react-bootstrap";
 import { TPerson } from "../data/types";
 
 export default function NamesTable({ names }: { names: TPerson[] }) {
@@ -24,14 +30,28 @@ export default function NamesTable({ names }: { names: TPerson[] }) {
                   {item.gender.gender} ({item.gender.probability}%)
                 </td>
                 <td>
-                  <ListGroup variant="flush">
-                    {!!item.nationality.length &&
-                      item.nationality.map((cntry, j) => (
-                        <ListGroup.Item key={j}>
-                          {cntry.country_id} ({cntry.probability}%)
-                        </ListGroup.Item>
-                      ))}
-                  </ListGroup>
+                  <OverlayTrigger
+                    trigger="click"
+                    placement="right"
+                    rootClose={true}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">Countries :</Popover.Header>
+                        <Popover.Body>
+                          <ListGroup variant="flush">
+                            {!!item.nationality.length &&
+                              item.nationality.map((cntry, j) => (
+                                <ListGroup.Item key={j}>
+                                  {cntry.country_id} ({cntry.probability}%)
+                                </ListGroup.Item>
+                              ))}
+                          </ListGroup>{" "}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <Button variant="success">Click me to see</Button>
+                  </OverlayTrigger>
                 </td>
               </tr>
             ))}
