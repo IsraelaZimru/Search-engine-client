@@ -1,28 +1,34 @@
-import "./App.css";
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import "./App.css";
 import NameForm from "./components/NameForm";
 import NamesTable from "./components/NamesTable";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getPeople } from "./store/people-actions";
-import { RootState } from "../src/store/index";
+import { deleteOne, getNameInfo, getPeople } from "./store/people-actions";
 let isInitial = true;
 
 function App() {
-  const people = useSelector((state: RootState) => state.names);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isInitial) {
       dispatch(getPeople());
       isInitial = false;
-      return;
     }
-  }, [people, dispatch]);
+  }, [dispatch]);
+
+  const submitHandler = (name: string) => {
+    dispatch(getNameInfo(name));
+  };
+
+  const deletePersonHandler = (id?: string) => {
+    dispatch(deleteOne(id));
+  };
+
   return (
     <Container>
-      <NameForm />
-      <NamesTable names={people} />
+      <NameForm submitHandler={submitHandler} />
+      <NamesTable deletePersonHandler={deletePersonHandler} />
     </Container>
   );
 }

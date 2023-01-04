@@ -1,5 +1,5 @@
 export type TInfo = {
-  id: string;
+  _id?: string;
   name: {
     pattern: RegExp;
     msg: string[];
@@ -9,6 +9,7 @@ export type TInfo = {
 };
 
 export type TPerson = {
+  _id?: string;
   name: string;
   gender: {
     gender: string;

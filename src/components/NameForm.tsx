@@ -1,8 +1,16 @@
 import { useState } from "react";
 import { Button, Col, Row, Container } from "react-bootstrap";
 import { TInfo } from "../data/types";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store/index";
 
-function NameForm() {
+function NameForm({
+  submitHandler,
+}: {
+  submitHandler: (name: string) => void;
+}) {
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
   const [info, setInfo] = useState<TInfo>({
     name: {
       pattern: /\w{2,}/,
@@ -22,8 +30,9 @@ function NameForm() {
     }));
   }
 
-  function submitHandler() {
-    console.log("enetr sumbit");
+  function formHandler() {
+    setLoading((prev) => true);
+    console.log("enter sumbit", isLoading);
     const value = info.name.value;
     //checking validation
     const errorMsg: string[] = [];
@@ -37,16 +46,9 @@ function NameForm() {
       errorMsg.push(`name is not valid.`);
       isMsgShowing = true;
     }
-    setInfo({
-      name: {
-        ...info.name,
-        value,
-        isInVaild: isMsgShowing,
-        msg: errorMsg,
-      },
-    });
 
     if (errorMsg[0]) {
+      setLoading(false);
       //if there is error msg ->submit don't happens!
 
       console.log("err", errorMsg[0]);
@@ -64,7 +66,9 @@ function NameForm() {
       return;
     }
 
-    console.log("everything is fine!!! 😎");
+    submitHandler(value);
+    setLoading(false);
+    console.log("everything is fine!!! 😎", value, isLoading);
   }
 
   return (
@@ -89,7 +93,12 @@ function NameForm() {
           </small>
         </Col>
         <Col className="my-1" xs={2}>
-          <Button onClick={submitHandler}>Search</Button>
+          <Button
+            onClick={isLoading ? undefined : formHandler}
+            variant="warning"
+          >
+            {isLoading ? "Loading..." : "Search"}
+          </Button>
         </Col>
       </Row>
     </Container>

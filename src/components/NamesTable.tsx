@@ -6,9 +6,16 @@ import {
   Popover,
   Button,
 } from "react-bootstrap";
-import { TPerson } from "../data/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/index";
 
-export default function NamesTable({ names }: { names: TPerson[] }) {
+export default function NamesTable({
+  deletePersonHandler,
+}: {
+  deletePersonHandler: (id?: string) => void;
+}) {
+  const names = useSelector((state: RootState) => state.names);
+
   return (
     <div style={{ marginTop: "50px" }}>
       <Table responsive="sm">
@@ -18,6 +25,7 @@ export default function NamesTable({ names }: { names: TPerson[] }) {
             <th>name</th>
             <th>gender</th>
             <th>nationality</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -50,8 +58,17 @@ export default function NamesTable({ names }: { names: TPerson[] }) {
                       </Popover>
                     }
                   >
-                    <Button variant="success">Click me to see</Button>
+                    <Button variant="warning">Click me to see</Button>
                   </OverlayTrigger>
+                </td>
+                <td>
+                  <span
+                    title={"delete button"}
+                    onClick={() => deletePersonHandler(item?._id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    ⛔
+                  </span>
                 </td>
               </tr>
             ))}

@@ -1,9 +1,14 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { TPerson } from "../data/types";
 
-const names: TPerson[] = [];
-const initialState = {
-  names,
+const initialState: {
+  names: TPerson[];
+  lastPerson: TPerson | null;
+  showResult: boolean;
+} = {
+  names: [],
+  lastPerson: null,
+  showResult: false,
 };
 
 const peopleSlice = createSlice({
@@ -12,6 +17,21 @@ const peopleSlice = createSlice({
   reducers: {
     getPeopleFromDB(state, action) {
       state.names = action.payload;
+    },
+    newPerson(state, action) {
+      state.lastPerson = action.payload;
+      state.names.push(action.payload);
+      state.showResult = true;
+    },
+    deleteOne(state, action) {
+      const personId = action.payload;
+      state.names = state.names.filter((item) => item._id !== personId);
+    },
+    CloseModel(state, action) {
+      state.showResult = false;
+    },
+    ShowModel(state, action) {
+      state.showResult = true;
     },
   },
 });
