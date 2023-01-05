@@ -79,7 +79,7 @@ function NameForm({
   return (
     <Container>
       <h1 className="mb-5 display-4">
-        <u> search nationality & gender of names</u>
+        <u> Search nationality & gender of names</u>
       </h1>
       <Row className="justify-content-md-center">
         <Col className="my-1" xs={4}>

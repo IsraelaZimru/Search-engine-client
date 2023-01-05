@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { peopleActions, RootState } from "../store";
 import {
-  ListGroup,
-  OverlayTrigger,
-  Popover,
   Button,
-  Modal,
+  Modal
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { numberFormatter } from "../data/utils";
+import { peopleActions, RootState } from "../store";
+import PopoverBtn from "./PopoverBtn";
 
 export default function ResultModel() {
   const showModel = useSelector((state: RootState) => state.showResult);
@@ -25,32 +23,11 @@ export default function ResultModel() {
         <p>
           name: {result?.name}
           <br></br>
-          gender: {result?.gender.gender} ({result?.gender.probability}%)
+          gender: {result?.gender.gender} ({numberFormatter(result?.gender.probability)}%)
           <br></br>
           nationality:{" "}
-          <span>
-            {" "}
-            <OverlayTrigger
-              trigger="click"
-              placement="right"
-              rootClose={true}
-              overlay={
-                <Popover id="popover-basic">
-                  <Popover.Header as="h3">Countries :</Popover.Header>
-                  <Popover.Body>
-                    <ListGroup variant="flush">
-                      {result?.nationality.map((cntry, j) => (
-                        <ListGroup.Item key={j}>
-                          {cntry.country_id} ({cntry.probability}%)
-                        </ListGroup.Item>
-                      ))}
-                    </ListGroup>{" "}
-                  </Popover.Body>
-                </Popover>
-              }
-            >
-              <Button variant="warning">Click me to see</Button>
-            </OverlayTrigger>
+          <span className="mr-3">
+            <PopoverBtn item={result?.nationality} />
           </span>
         </p>
       </Modal.Body>
